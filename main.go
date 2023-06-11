@@ -48,14 +48,17 @@ func main() {
 	//repository layer
 	userRepository := repository.NewUserRepositoryImpl(db)
 	inventoryRepository := repository.NewInventoryRepositoryImpl(db)
+	orderRepository := repository.NewOrderRepositoryImpl(db)
 
 	//usecase layer
 	userUsecase := usecase.NewUserUsecaseImpl(userRepository)
 	inventoryUsecase := usecase.NewInventoryUsecaseImpl(inventoryRepository)
+	orderUsecase := usecase.NewOrderUsecaseImpl(orderRepository, inventoryRepository)
 
 	//handler layer
 	userHandler := handler.NewUserHandlerImpl(userUsecase)
 	inventoryHandler := handler.NewInventoryHandlerImpl(inventoryUsecase)
+	orderHandler := handler.NewOrderHandlerImpl(orderUsecase)
 
 	router := gin.Default()
 	router.Use(cors.Default())
@@ -78,6 +81,14 @@ func main() {
 	inventoryRouter.GET("/sku/:sku", inventoryHandler.GetBySku)
 	inventoryRouter.GET("", inventoryHandler.GetBySeller)
 	inventoryRouter.DELETE("/delete/:id", inventoryHandler.DeleteById)
+
+	//route order group
+	orderRouter := api.Group("/order")
+	orderRouter.POST("", orderHandler.Create)
+	orderRouter.PUT("/:id", orderHandler.Update)
+	orderRouter.GET("/:id", orderHandler.GetById)
+	orderRouter.GET("", orderHandler.GetBySeller)
+	orderRouter.DELETE("/delete/:id", orderHandler.DeleteById)
 
 	router.Run(":" + appPort)
 
