@@ -26,7 +26,7 @@ func (r *InventoryRepositoryImpl) Create(inventory models.Inventory) (*models.In
 }
 
 func (r *InventoryRepositoryImpl) Update(inventory models.Inventory) (*models.Inventory, error) {
-	err := r.db.Model(&inventory).Where("id = ?", inventory.Id).Updates(&inventory).Error
+	err := r.db.Model(&inventory).Where("id = ?", inventory.Id).Where("is_deleted =?", false).Updates(&inventory).Error
 	if err != nil {
 		return nil, err
 	}
@@ -35,7 +35,7 @@ func (r *InventoryRepositoryImpl) Update(inventory models.Inventory) (*models.In
 
 func (r *InventoryRepositoryImpl) FindByID(id int) (*models.Inventory, error) {
 	var inventory models.Inventory
-	err := r.db.Model(&inventory).Where("id =?", id).First(&inventory).Error
+	err := r.db.Model(&inventory).Where("id =?", id).Where("is_deleted =?", false).First(&inventory).Error
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func (r *InventoryRepositoryImpl) FindByID(id int) (*models.Inventory, error) {
 
 func (r *InventoryRepositoryImpl) FindBySku(id string) (*models.Inventory, error) {
 	var inventory models.Inventory
-	err := r.db.Model(&inventory).Where("sku =?", id).First(&inventory).Error
+	err := r.db.Model(&inventory).Where("sku =?", id).Where("is_deleted =?", false).First(&inventory).Error
 	if err != nil {
 		return nil, err
 	}
@@ -53,10 +53,10 @@ func (r *InventoryRepositoryImpl) FindBySku(id string) (*models.Inventory, error
 	return &inventory, nil
 }
 
-func (r *InventoryRepositoryImpl) FindAll() ([]models.Inventory, error) {
+func (r *InventoryRepositoryImpl) FindBySellerId(sellerId int) ([]models.Inventory, error) {
 	var inventories []models.Inventory
 
-	err := r.db.Preload("User").Find(&inventories).Error
+	err := r.db.Where("seller_id =?", sellerId).Where("is_deleted =?", false).Preload("User").Find(&inventories).Error
 	if err != nil {
 		return inventories, err
 	}
