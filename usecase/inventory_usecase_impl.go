@@ -26,7 +26,7 @@ func NewInventoryUsecaseImpl(repository repository.InventoryRepository) Inventor
 
 func (u *InventoryUsecaseImpl) Create(user models.User, input models.InventoryInput) (*models.Inventory, error) {
 	if roleSeller != user.Role {
-		return nil, errors.New("FORBIDDEN TO ACCESS")
+		return nil, errors.New("forbidden to access")
 	}
 	category := models.Inventory{
 		Sku:         uuid.New().String(),

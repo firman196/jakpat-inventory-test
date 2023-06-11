@@ -53,3 +53,12 @@ func (r *OrderRepositoryImpl) FindBySellerId(sellerId int) ([]models.SalesOrder,
 
 	return order, nil
 }
+
+func (r *OrderRepositoryImpl) DeleteById(id string) (bool, error) {
+	err := r.db.Where("order_id = ?", id).Delete(&models.SalesOrder{}).Error
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
+}
