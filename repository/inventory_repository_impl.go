@@ -43,6 +43,16 @@ func (r *InventoryRepositoryImpl) FindByID(id int) (*models.Inventory, error) {
 	return &inventory, nil
 }
 
+func (r *InventoryRepositoryImpl) FindBySku(id string) (*models.Inventory, error) {
+	var inventory models.Inventory
+	err := r.db.Model(&inventory).Where("sku =?", id).First(&inventory).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &inventory, nil
+}
+
 func (r *InventoryRepositoryImpl) FindAll() ([]models.Inventory, error) {
 	var inventories []models.Inventory
 

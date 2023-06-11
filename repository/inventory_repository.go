@@ -8,5 +8,6 @@ type InventoryRepository interface {
 	Create(category models.Inventory) (*models.Inventory, error)
 	Update(category models.Inventory) (*models.Inventory, error)
 	FindByID(id int) (*models.Inventory, error)
+	FindBySku(sku string) (*models.Inventory, error)
 	FindAll() ([]models.Inventory, error)
 }
