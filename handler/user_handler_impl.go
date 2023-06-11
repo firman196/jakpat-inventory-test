@@ -83,20 +83,21 @@ func (h *UserHandlerImpl) Login(c *gin.Context) {
 
 func (h *UserHandlerImpl) RefreshToken(c *gin.Context) {
 	header := c.GetHeader("Authorization")
-	if header == "" {
+	if header == "" && !strings.Contains(header, "Bearer") {
 		response := utils.ApiResponse("User Unauthorized", http.StatusBadRequest, "error", nil)
-		c.JSON(http.StatusBadRequest, response)
+		c.AbortWithStatusJSON(http.StatusUnauthorized, response)
 		return
 	}
 	token := strings.Split(header, " ")
 	if len(token) != 2 {
 		response := utils.ApiResponse("User Unauthorized", http.StatusBadRequest, "error", nil)
-		c.JSON(http.StatusBadRequest, response)
+		c.AbortWithStatusJSON(http.StatusUnauthorized, response)
 		return
 	}
 
 	if token[0] != "Bearer" {
-		c.AbortWithStatus(http.StatusUnauthorized)
+		response := utils.ApiResponse("User Unauthorized", http.StatusBadRequest, "error", nil)
+		c.AbortWithStatusJSON(http.StatusUnauthorized, response)
 		return
 	}
 
@@ -104,7 +105,7 @@ func (h *UserHandlerImpl) RefreshToken(c *gin.Context) {
 
 	if errToken != nil {
 		response := utils.ApiResponse("User Unauthorized", http.StatusBadRequest, "error", nil)
-		c.JSON(http.StatusBadRequest, response)
+		c.AbortWithStatusJSON(http.StatusUnauthorized, response)
 		return
 	}
 
