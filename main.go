@@ -47,12 +47,15 @@ func main() {
 
 	//repository layer
 	userRepository := repository.NewUserRepositoryImpl(db)
+	inventoryRepository := repository.NewInventoryRepositoryImpl(db)
 
 	//usecase layer
 	userUsecase := usecase.NewUserUsecaseImpl(userRepository)
+	inventoryUsecase := usecase.NewInventoryUsecaseImpl(inventoryRepository)
 
 	//handler layer
 	userHandler := handler.NewUserHandlerImpl(userUsecase)
+	inventoryHandler := handler.NewInventoryHandlerImpl(inventoryUsecase)
 
 	router := gin.Default()
 	router.Use(cors.Default())
@@ -66,6 +69,14 @@ func main() {
 	categoryRouter := api.Group("/user")
 	categoryRouter.POST("/register", userHandler.Register)
 	categoryRouter.POST("/login", userHandler.Login)
+
+	//route inventory group
+	inventoryRouter := api.Group("/inventory")
+	inventoryRouter.POST("", inventoryHandler.Create)
+	inventoryRouter.PUT("/:id", inventoryHandler.Update)
+	inventoryRouter.GET("/:id", inventoryHandler.GetById)
+	inventoryRouter.GET("/sku/:sku", inventoryHandler.GetBySku)
+	inventoryRouter.GET("", inventoryHandler.GetByAll)
 
 	router.Run(":" + appPort)
 

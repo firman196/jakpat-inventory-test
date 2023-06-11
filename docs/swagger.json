@@ -4,6 +4,95 @@
         "contact": {}
     },
     "paths": {
+        "/api/v1/inventory": {
+            "post": {
+                "description": "Save Inventory data in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "inventory"
+                ],
+                "summary": "Create a new Inventory",
+                "parameters": [
+                    {
+                        "description": "Create inventory",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.InventoryInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/inventory/{id}": {
+            "get": {
+                "description": "Return data inventory where similar with sku.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "inventory"
+                ],
+                "summary": "Get Single inventory by sku.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "fing inventory by sku",
+                        "name": "sku",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Response"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update data inventory in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "inventory"
+                ],
+                "summary": "Update Inventory",
+                "parameters": [
+                    {
+                        "description": "Update inventory",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.InventoryInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/user/login": {
             "post": {
                 "description": "Authenticate User.",
@@ -68,6 +157,26 @@
         }
     },
     "definitions": {
+        "models.InventoryInput": {
+            "type": "object",
+            "required": [
+                "product_name"
+            ],
+            "properties": {
+                "product_name": {
+                    "type": "string"
+                },
+                "qty_reserved": {
+                    "type": "integer"
+                },
+                "qty_saleable": {
+                    "type": "integer"
+                },
+                "qty_total": {
+                    "type": "integer"
+                }
+            }
+        },
         "models.LoginInput": {
             "type": "object",
             "required": [
