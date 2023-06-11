@@ -7,12 +7,12 @@ import (
 )
 
 type User struct {
-	UserID    uint   `gorm:"primaryKey; not null"`
-	Firstname string `gorm:"size:100;not null"`
-	Lastname  string `gorm:"size:100"`
-	Email     string `gorm:"size:100;not null;unique"`
-	Password  string `gorm:"size:255,not null"`
-	Role      string `gorm:"column:role;type:enum('seller','customer')"`
+	UserID    uint   `gorm:"primaryKey; not null" json:"user_id"`
+	Firstname string `gorm:"size:100;not null" json:"firstname" binding:"required"`
+	Lastname  string `gorm:"size:100" json:"lastname"`
+	Email     string `gorm:"size:100;not null;unique" json:"email" binding:"required,email"`
+	Password  string `gorm:"size:255,not null" json:"password" binding:"required"`
+	Role      string `gorm:"column:role;type:enum('seller','customer')" json:"role"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt time.Time
