@@ -17,6 +17,24 @@ const docTemplate = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/api/v1/inventory": {
+            "get": {
+                "description": "Return data inventory by seller.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "inventory"
+                ],
+                "summary": "Get all inventory by seller.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Response"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "Save Inventory data in Db.",
                 "produces": [
@@ -35,6 +53,35 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.InventoryInput"
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/inventory/delete/{id}": {
+            "delete": {
+                "description": "Return data boolean.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "inventory"
+                ],
+                "summary": "Delete inventory by id.",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "delete inventory by id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -139,20 +186,136 @@ const docTemplate = `{
                         }
                     }
                 }
+            }
+        },
+        "/api/v1/order": {
+            "get": {
+                "description": "Return data order by seller.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "order"
+                ],
+                "summary": "Get all order by seller.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Response"
+                        }
+                    }
+                }
             },
+            "post": {
+                "description": "Create new order by customer.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "order"
+                ],
+                "summary": "Create a new Order",
+                "parameters": [
+                    {
+                        "description": "Create order",
+                        "name": "order",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.OrderInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/order/delete/{id}": {
             "delete": {
                 "description": "Return data boolean.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "inventory"
+                    "order"
                 ],
-                "summary": "Delete inventory by id.",
+                "summary": "Delete order by id.",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "delete order by id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/order/{id}": {
+            "get": {
+                "description": "Return data order where similar with id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "order"
+                ],
+                "summary": "Get Single order by id.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "find order by id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Response"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update status order.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "order"
+                ],
+                "summary": "Update Order",
+                "parameters": [
+                    {
+                        "description": "Update status order",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.OrderInput"
+                        }
+                    },
+                    {
                         "type": "integer",
-                        "description": "delete inventory by id",
+                        "description": "find order by id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -263,6 +426,29 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.OrderInput": {
+            "type": "object",
+            "required": [
+                "no_telphone",
+                "shipping_address",
+                "sku",
+                "status"
+            ],
+            "properties": {
+                "no_telphone": {
+                    "type": "string"
+                },
+                "shipping_address": {
+                    "type": "string"
+                },
+                "sku": {
+                    "type": "string"
+                },
+                "status": {
                     "type": "string"
                 }
             }

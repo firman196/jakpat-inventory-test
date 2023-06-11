@@ -36,11 +36,12 @@ type Inventory struct {
 }
 
 type SalesOrder struct {
-	OrderId     string `gorm:"primaryKey;size:100; not null"`
-	SellerId    uint   `gorm:"not null; autoIncrement:false"`
-	CustomerId  uint   `gorm:"not null; autoIncrement:false"`
-	InventoryId uint   `gorm:"not null; autoincrement:false"`
-	Status      string `gorm:"column:status;type:enum('waiting', 'on_process', 'shipping', 'delivered','expired')"`
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
+	OrderId         string `gorm:"primaryKey;size:100; not null"`
+	CustomerId      uint   `gorm:"not null; autoIncrement:false"`
+	InventoryId     uint   `gorm:"not null; autoincrement:false"`
+	ShippingAddress string `gorm:"not null; autoincrement:false"`
+	NoTelphone      string `gorm:"not null; autoincrement:false"`
+	Status          string `gorm:"column:status;type:enum('waiting', 'on_process', 'shipping', 'delivered','expired')"`
+	CreatedAt       time.Time
+	UpdatedAt       time.Time
 }
