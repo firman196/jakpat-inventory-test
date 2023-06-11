@@ -10,6 +10,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+var user = models.User{
+	UserID: 1,
+	Role:   "seller",
+}
+
 type InventoryHandlerImpl struct {
 	InventoryUsecase usecase.InventoryUsecase
 }
@@ -34,14 +39,14 @@ func (h *InventoryHandlerImpl) Create(c *gin.Context) {
 	if err != nil {
 		errors := utils.FormatValidationError(err)
 		errorMessage := gin.H{"errors": errors}
-		response := utils.ApiResponse("Create Category Failed", http.StatusUnprocessableEntity, "error", errorMessage)
+		response := utils.ApiResponse("Inventory Category Failed", http.StatusUnprocessableEntity, "error", errorMessage)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
-	category, errService := h.InventoryUsecase.Create(input)
+	category, errService := h.InventoryUsecase.Create(user, input)
 	if errService != nil {
-		response := utils.ApiResponse("Create category failed", http.StatusBadRequest, "error", nil)
+		response := utils.ApiResponse("Inventory category failed", http.StatusBadRequest, "error", nil)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
@@ -54,6 +59,7 @@ func (h *InventoryHandlerImpl) Create(c *gin.Context) {
 // @Summary			Update Inventory
 // @Description		Update data inventory in Db.
 // @Param			user body models.InventoryInput true "Update inventory"
+// @Param			id path integer true "find inventory by id"
 // @Produce			application/json
 // @Tags			inventory
 // @Success			200 {object} utils.Response
@@ -76,7 +82,7 @@ func (h *InventoryHandlerImpl) Update(c *gin.Context) {
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
-	inventory, errService := h.InventoryUsecase.Update(id, input)
+	inventory, errService := h.InventoryUsecase.Update(user, id, input)
 	if errService != nil {
 		response := utils.ApiResponse("Update inventory failed", http.StatusBadRequest, "error", nil)
 		c.JSON(http.StatusBadRequest, response)
@@ -103,7 +109,7 @@ func (h *InventoryHandlerImpl) GetById(c *gin.Context) {
 		return
 	}
 
-	inventory, errService := h.InventoryUsecase.GetById(id)
+	inventory, errService := h.InventoryUsecase.GetById(user, id)
 	if errService != nil {
 		response := utils.ApiResponse("Get data inventory failed", http.StatusBadRequest, "error", errService)
 		c.JSON(http.StatusBadRequest, response)
@@ -121,10 +127,10 @@ func (h *InventoryHandlerImpl) GetById(c *gin.Context) {
 // @Produce				application/json
 // @Tags				inventory
 // @Success				200 {object} utils.Response
-// @Router				/api/v1/inventory/{id} [get]
+// @Router				/api/v1/inventory/sku/{sku} [get]
 func (h *InventoryHandlerImpl) GetBySku(c *gin.Context) {
 	sku := c.Param("sku")
-	inventory, errService := h.InventoryUsecase.GetBySku(sku)
+	inventory, errService := h.InventoryUsecase.GetBySku(user, sku)
 	if errService != nil {
 		response := utils.ApiResponse("Get data inventory failed", http.StatusBadRequest, "error", errService)
 		c.JSON(http.StatusBadRequest, response)
@@ -135,6 +141,41 @@ func (h *InventoryHandlerImpl) GetBySku(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-func (h *InventoryHandlerImpl) GetByAll(c *gin.Context) {
+func (h *InventoryHandlerImpl) GetBySeller(c *gin.Context) {
+	inventories, errService := h.InventoryUsecase.GetBySeller(user)
+	if errService != nil {
+		response := utils.ApiResponse("Get all data inventory failed", http.StatusBadRequest, "error", errService)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
 
+	response := utils.ApiResponse("Get data inventory success", http.StatusOK, "success", inventories)
+	c.JSON(http.StatusOK, response)
+}
+
+// DeleteByIdInventory 	godoc
+// @Summary				Delete inventory by id.
+// @Param				id path integer true "delete inventory by id"
+// @Description			Return data boolean.
+// @Produce				application/json
+// @Tags				inventory
+// @Success				200 {object} utils.Response
+// @Router				/api/v1/inventory/delete/{id} [delete]
+func (h *InventoryHandlerImpl) DeleteById(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		response := utils.ApiResponse("Get data inventory failed", http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	inventory, errService := h.InventoryUsecase.GetById(user, id)
+	if errService != nil {
+		response := utils.ApiResponse("Get data inventory failed", http.StatusBadRequest, "error", errService)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	response := utils.ApiResponse("Get data inventory success", http.StatusOK, "success", inventory)
+	c.JSON(http.StatusOK, response)
 }

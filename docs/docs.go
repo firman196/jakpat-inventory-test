@@ -47,7 +47,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/inventory/{id}": {
+        "/api/v1/inventory/sku/{sku}": {
             "get": {
                 "description": "Return data inventory where similar with sku.",
                 "produces": [
@@ -62,6 +62,35 @@ const docTemplate = `{
                         "type": "string",
                         "description": "fing inventory by sku",
                         "name": "sku",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/inventory/{id}": {
+            "get": {
+                "description": "Return data inventory where similar with id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "inventory"
+                ],
+                "summary": "Get Single inventory by id.",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "find inventory by id",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     }
@@ -93,6 +122,40 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.InventoryInput"
                         }
+                    },
+                    {
+                        "type": "integer",
+                        "description": "find inventory by id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Return data boolean.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "inventory"
+                ],
+                "summary": "Delete inventory by id.",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "delete inventory by id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
