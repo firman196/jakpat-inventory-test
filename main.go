@@ -76,7 +76,8 @@ func main() {
 	inventoryRouter.PUT("/:id", inventoryHandler.Update)
 	inventoryRouter.GET("/:id", inventoryHandler.GetById)
 	inventoryRouter.GET("/sku/:sku", inventoryHandler.GetBySku)
-	inventoryRouter.GET("", inventoryHandler.GetByAll)
+	inventoryRouter.GET("", inventoryHandler.GetBySeller)
+	inventoryRouter.DELETE("/:id", inventoryHandler.DeleteById)
 
 	router.Run(":" + appPort)
 

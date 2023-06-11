@@ -15,9 +15,9 @@ type User struct {
 	Role      string `gorm:"column:role;type:enum('seller','customer')" json:"role"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	DeletedAt time.Time
-	DeletedBy uint `gorm:"not null; autoincrement:false"`
-	IsDeleted bool `gorm:"default:false"`
+	DeletedAt time.Time `gorm:"default:null"`
+	DeletedBy uint      `gorm:"default:null; autoincrement:false"`
+	IsDeleted bool      `gorm:"default:false"`
 }
 
 type Inventory struct {
@@ -30,6 +30,9 @@ type Inventory struct {
 	SellerId    uint   `gorm:"size:36;not null;uniqueIndex;primary_key"`
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
+	DeletedAt   time.Time `gorm:"default:null"`
+	DeletedBy   uint      `gorm:"default:null; autoincrement:false"`
+	IsDeleted   bool      `gorm:"default:false"`
 }
 
 type SalesOrder struct {
@@ -40,7 +43,4 @@ type SalesOrder struct {
 	Status      string `gorm:"column:status;type:enum('waiting', 'on_process', 'shipping', 'delivered','expired')"`
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
-	DeletedAt   time.Time
-	DeletedBy   uint `gorm:"not null; autoincrement:false"`
-	IsDeleted   bool `gorm:"default:false"`
 }

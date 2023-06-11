@@ -53,10 +53,10 @@ func (r *InventoryRepositoryImpl) FindBySku(id string) (*models.Inventory, error
 	return &inventory, nil
 }
 
-func (r *InventoryRepositoryImpl) FindAll() ([]models.Inventory, error) {
+func (r *InventoryRepositoryImpl) FindBySellerId(sellerId int) ([]models.Inventory, error) {
 	var inventories []models.Inventory
 
-	err := r.db.Preload("User").Find(&inventories).Error
+	err := r.db.Where("seller_id =?", sellerId).Preload("User").Find(&inventories).Error
 	if err != nil {
 		return inventories, err
 	}
