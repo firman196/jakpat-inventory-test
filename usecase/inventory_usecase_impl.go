@@ -34,7 +34,7 @@ func (u *InventoryUsecaseImpl) Create(user models.User, input models.InventoryIn
 		QtyTotal:    input.QtyTotal,
 		QtyReserved: input.QtyReserved,
 		QtySaleable: input.QtySaleable,
-		SellerId:    0,
+		SellerId:    user.UserID,
 	}
 
 	response, err := u.repository.Create(category)

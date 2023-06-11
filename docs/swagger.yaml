@@ -97,6 +97,49 @@ paths:
       tags:
       - inventory
     get:
+      description: Return data inventory where similar with id.
+      parameters:
+      - description: find inventory by id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Get Single inventory by id.
+      tags:
+      - inventory
+    put:
+      description: Update data inventory in Db.
+      parameters:
+      - description: Update inventory
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.InventoryInput'
+      - description: find inventory by id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Update Inventory
+      tags:
+      - inventory
+  /api/v1/inventory/sku/{sku}:
+    get:
       description: Return data inventory where similar with sku.
       parameters:
       - description: fing inventory by sku
@@ -112,25 +155,6 @@ paths:
           schema:
             $ref: '#/definitions/utils.Response'
       summary: Get Single inventory by sku.
-      tags:
-      - inventory
-    put:
-      description: Update data inventory in Db.
-      parameters:
-      - description: Update inventory
-        in: body
-        name: user
-        required: true
-        schema:
-          $ref: '#/definitions/models.InventoryInput'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/utils.Response'
-      summary: Update Inventory
       tags:
       - inventory
   /api/v1/user/login:

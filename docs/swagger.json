@@ -35,7 +35,7 @@
                 }
             }
         },
-        "/api/v1/inventory/{id}": {
+        "/api/v1/inventory/sku/{sku}": {
             "get": {
                 "description": "Return data inventory where similar with sku.",
                 "produces": [
@@ -50,6 +50,35 @@
                         "type": "string",
                         "description": "fing inventory by sku",
                         "name": "sku",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/inventory/{id}": {
+            "get": {
+                "description": "Return data inventory where similar with id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "inventory"
+                ],
+                "summary": "Get Single inventory by id.",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "find inventory by id",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     }
@@ -81,6 +110,13 @@
                         "schema": {
                             "$ref": "#/definitions/models.InventoryInput"
                         }
+                    },
+                    {
+                        "type": "integer",
+                        "description": "find inventory by id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {

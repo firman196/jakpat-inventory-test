@@ -27,7 +27,7 @@ type Inventory struct {
 	QtyTotal    int    `gorm:"default:0"`
 	QtyReserved int    `gorm:"default:0"`
 	QtySaleable int    `gorm:"default:0"`
-	SellerId    uint   `gorm:"size:36;not null;uniqueIndex;primary_key"`
+	SellerId    uint   `gorm:"size:36;not null"`
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 	DeletedAt   time.Time `gorm:"default:null"`
