@@ -7,5 +7,6 @@ type InventoryHandler interface {
 	Update(c *gin.Context)
 	GetById(c *gin.Context)
 	GetBySku(c *gin.Context)
-	GetByAll(c *gin.Context)
+	GetBySeller(c *gin.Context)
+	DeleteById(c *gin.Context)
 }
