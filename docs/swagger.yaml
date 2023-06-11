@@ -1,0 +1,87 @@
+definitions:
+  models.LoginInput:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  models.RegisterInput:
+    properties:
+      email:
+        type: string
+      firstname:
+        type: string
+      lastname:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+    required:
+    - email
+    - firstname
+    - password
+    type: object
+  utils.Meta:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+      status:
+        type: string
+    type: object
+  utils.Response:
+    properties:
+      data: {}
+      meta:
+        $ref: '#/definitions/utils.Meta'
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/user/login:
+    post:
+      description: Authenticate User.
+      parameters:
+      - description: Login user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.LoginInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Login a user
+      tags:
+      - user
+  /api/v1/user/register:
+    post:
+      description: Save user data in Db.
+      parameters:
+      - description: Create user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.RegisterInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Register a user
+      tags:
+      - user
+swagger: "2.0"

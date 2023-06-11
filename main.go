@@ -2,7 +2,10 @@ package main
 
 import (
 	database "Jakpat_Test_2/database/mysql"
+	"Jakpat_Test_2/handler"
 	"Jakpat_Test_2/models"
+	"Jakpat_Test_2/repository"
+	"Jakpat_Test_2/usecase"
 	"os"
 
 	"github.com/gin-contrib/cors"
@@ -11,6 +14,8 @@ import (
 	"github.com/rs/zerolog/log"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+
+	_ "Jakpat_Test_2/docs"
 )
 
 func main() {
@@ -40,13 +45,27 @@ func main() {
 	db.AutoMigrate(&models.Inventory{})
 	db.AutoMigrate(&models.SalesOrder{})
 
+	//repository layer
+	userRepository := repository.NewUserRepositoryImpl(db)
+
+	//usecase layer
+	userUsecase := usecase.NewUserUsecaseImpl(userRepository)
+
+	//handler layer
+	userHandler := handler.NewUserHandlerImpl(userUsecase)
+
 	router := gin.Default()
 	router.Use(cors.Default())
 
 	// route swagger
 	router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	//api := router.Group("/api/v1")
+	api := router.Group("/api/v1")
+
+	//route user group
+	categoryRouter := api.Group("/user")
+	categoryRouter.POST("/register", userHandler.Register)
+	categoryRouter.POST("/login", userHandler.Login)
 
 	router.Run(":" + appPort)
 
