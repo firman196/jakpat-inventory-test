@@ -91,6 +91,33 @@
                         }
                     }
                 }
+            },
+            "delete": {
+                "description": "Return data boolean.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "inventory"
+                ],
+                "summary": "Delete inventory by id.",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "delete inventory by id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Response"
+                        }
+                    }
+                }
             }
         },
         "/api/v1/user/login": {

@@ -78,6 +78,24 @@ paths:
       tags:
       - inventory
   /api/v1/inventory/{id}:
+    delete:
+      description: Return data boolean.
+      parameters:
+      - description: delete inventory by id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Delete inventory by id.
+      tags:
+      - inventory
     get:
       description: Return data inventory where similar with sku.
       parameters:

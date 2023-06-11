@@ -10,5 +10,4 @@ type InventoryRepository interface {
 	FindByID(id int) (*models.Inventory, error)
 	FindBySku(sku string) (*models.Inventory, error)
 	FindBySellerId(sellerId int) ([]models.Inventory, error)
-	Delete(id int) (bool, error)
 }
