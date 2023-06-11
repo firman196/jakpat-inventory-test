@@ -22,6 +22,22 @@ definitions:
     - email
     - password
     type: object
+  models.OrderInput:
+    properties:
+      no_telphone:
+        type: string
+      shipping_address:
+        type: string
+      sku:
+        type: string
+      status:
+        type: string
+    required:
+    - no_telphone
+    - shipping_address
+    - sku
+    - status
+    type: object
   models.RegisterInput:
     properties:
       email:
@@ -58,6 +74,18 @@ info:
   contact: {}
 paths:
   /api/v1/inventory:
+    get:
+      description: Return data inventory by seller.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Get all inventory by seller.
+      tags:
+      - inventory
     post:
       description: Save Inventory data in Db.
       parameters:
@@ -78,24 +106,6 @@ paths:
       tags:
       - inventory
   /api/v1/inventory/{id}:
-    delete:
-      description: Return data boolean.
-      parameters:
-      - description: delete inventory by id
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/utils.Response'
-      summary: Delete inventory by id.
-      tags:
-      - inventory
     get:
       description: Return data inventory where similar with id.
       parameters:
@@ -138,6 +148,25 @@ paths:
       summary: Update Inventory
       tags:
       - inventory
+  /api/v1/inventory/delete/{id}:
+    delete:
+      description: Return data boolean.
+      parameters:
+      - description: delete inventory by id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Delete inventory by id.
+      tags:
+      - inventory
   /api/v1/inventory/sku/{sku}:
     get:
       description: Return data inventory where similar with sku.
@@ -157,6 +186,100 @@ paths:
       summary: Get Single inventory by sku.
       tags:
       - inventory
+  /api/v1/order:
+    get:
+      description: Return data order by seller.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Get all order by seller.
+      tags:
+      - order
+    post:
+      description: Create new order by customer.
+      parameters:
+      - description: Create order
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/models.OrderInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Create a new Order
+      tags:
+      - order
+  /api/v1/order/{id}:
+    get:
+      description: Return data order where similar with id.
+      parameters:
+      - description: find order by id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Get Single order by id.
+      tags:
+      - order
+    put:
+      description: Update status order.
+      parameters:
+      - description: Update status order
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.OrderInput'
+      - description: find order by id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Update Order
+      tags:
+      - order
+  /api/v1/order/delete/{id}:
+    delete:
+      description: Return data boolean.
+      parameters:
+      - description: delete order by id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Delete order by id.
+      tags:
+      - order
   /api/v1/user/login:
     post:
       description: Authenticate User.

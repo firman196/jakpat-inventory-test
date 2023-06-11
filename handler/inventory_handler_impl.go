@@ -46,12 +46,12 @@ func (h *InventoryHandlerImpl) Create(c *gin.Context) {
 
 	category, errService := h.InventoryUsecase.Create(user, input)
 	if errService != nil {
-		response := utils.ApiResponse("Inventory category failed", http.StatusBadRequest, "error", nil)
+		response := utils.ApiResponse("Create inventory failed", http.StatusBadRequest, "error", nil)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
 
-	response := utils.ApiResponse("Create category success", http.StatusOK, "success", category)
+	response := utils.ApiResponse("Create inventory success", http.StatusOK, "success", category)
 	c.JSON(http.StatusOK, response)
 }
 
@@ -141,6 +141,13 @@ func (h *InventoryHandlerImpl) GetBySku(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// FindAllBySeller 		godoc
+// @Summary				Get all inventory by seller.
+// @Description			Return data inventory by seller.
+// @Produce				application/json
+// @Tags				inventory
+// @Success				200 {object} utils.Response
+// @Router				/api/v1/inventory [get]
 func (h *InventoryHandlerImpl) GetBySeller(c *gin.Context) {
 	inventories, errService := h.InventoryUsecase.GetBySeller(user)
 	if errService != nil {
@@ -164,18 +171,18 @@ func (h *InventoryHandlerImpl) GetBySeller(c *gin.Context) {
 func (h *InventoryHandlerImpl) DeleteById(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		response := utils.ApiResponse("Get data inventory failed", http.StatusBadRequest, "error", nil)
+		response := utils.ApiResponse("Delete inventory failed", http.StatusBadRequest, "error", nil)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
 
 	inventory, errService := h.InventoryUsecase.GetById(user, id)
 	if errService != nil {
-		response := utils.ApiResponse("Get data inventory failed", http.StatusBadRequest, "error", errService)
+		response := utils.ApiResponse("Delete inventory failed", http.StatusBadRequest, "error", errService)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
 
-	response := utils.ApiResponse("Get data inventory success", http.StatusOK, "success", inventory)
+	response := utils.ApiResponse("Delete inventory success", http.StatusOK, "success", inventory)
 	c.JSON(http.StatusOK, response)
 }
