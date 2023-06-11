@@ -20,7 +20,7 @@ func NewUserUsecaseImpl(repository repository.UserRepository) UserUsecase {
 	}
 }
 
-func (u *UserUsecaseImpl) Register(input models.User) (*models.User, error) {
+func (u *UserUsecaseImpl) Register(input models.RegisterInput) (*models.User, error) {
 	hash, err := utils.HashPassword(input.Password)
 	if err != nil {
 		return nil, err
@@ -41,7 +41,7 @@ func (u *UserUsecaseImpl) Register(input models.User) (*models.User, error) {
 
 }
 
-func (u *UserUsecaseImpl) Login(input models.User) (*models.Token, error) {
+func (u *UserUsecaseImpl) Login(input models.LoginInput) (*models.Token, error) {
 	user, err := u.repository.FindByEmail(input.Email)
 	if err != nil {
 		return nil, err

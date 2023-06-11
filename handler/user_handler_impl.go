@@ -4,8 +4,11 @@ import (
 	"Jakpat_Test_2/models"
 	"Jakpat_Test_2/usecase"
 	"Jakpat_Test_2/utils"
-	"golang-store/model/web"
+	"strings"
+
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 type UserHandlerImpl struct {
@@ -21,13 +24,13 @@ func NewUserHandlerImpl(userUsecase usecase.UserUsecase) UserHandler {
 // RegisterUser		godoc
 // @Summary			Register a user
 // @Description		Save user data in Db.
-// @Param			user body web.CreateUser true "Create user"
+// @Param			user body models.RegisterInput true "Create user"
 // @Produce			application/json
 // @Tags			user
 // @Success			200 {object} utils.Response
 // @Router			/api/v1/user/register [post]
-func (service *UserHandlerImpl) Register(c *gin.Context) {
-	var input models.User
+func (h *UserHandlerImpl) Register(c *gin.Context) {
+	var input models.RegisterInput
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
 		errors := utils.FormatValidationError(err)
@@ -36,7 +39,7 @@ func (service *UserHandlerImpl) Register(c *gin.Context) {
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
-	user, errService := service.UserService.Register(input)
+	user, errService := h.UserUsecase.Register(input)
 	if errService != nil {
 		response := utils.ApiResponse("Register user failed", http.StatusBadRequest, "error", nil)
 		c.JSON(http.StatusBadRequest, response)
@@ -47,8 +50,16 @@ func (service *UserHandlerImpl) Register(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-func (service *UserControllerImpl) Login(c *gin.Context) {
-	var input web.Login
+// LoginUser		godoc
+// @Summary			Login a user
+// @Description		Authenticate User.
+// @Param			user body models.LoginInput true "Login user"
+// @Produce			application/json
+// @Tags			user
+// @Success			200 {object} utils.Response
+// @Router			/api/v1/user/login [post]
+func (h *UserHandlerImpl) Login(c *gin.Context) {
+	var input models.LoginInput
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -59,7 +70,7 @@ func (service *UserControllerImpl) Login(c *gin.Context) {
 		return
 	}
 
-	user, errService := service.UserService.Login(input)
+	user, errService := h.UserUsecase.Login(input)
 	if errService != nil {
 		response := utils.ApiResponse("Login user failed", http.StatusBadRequest, "error", nil)
 		c.JSON(http.StatusBadRequest, response)
@@ -70,6 +81,34 @@ func (service *UserControllerImpl) Login(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-func (service *UserControllerImpl) RefreshToken(c *gin.Context) {
+func (h *UserHandlerImpl) RefreshToken(c *gin.Context) {
+	header := c.GetHeader("Authorization")
+	if header == "" {
+		response := utils.ApiResponse("User Unauthorized", http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+	token := strings.Split(header, " ")
+	if len(token) != 2 {
+		response := utils.ApiResponse("User Unauthorized", http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	if token[0] != "Bearer" {
+		c.AbortWithStatus(http.StatusUnauthorized)
+		return
+	}
+
+	newToken, errToken := h.UserUsecase.RefreshToken(token[1])
+
+	if errToken != nil {
+		response := utils.ApiResponse("User Unauthorized", http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	response := utils.ApiResponse("Refresh token success", http.StatusOK, "success", newToken)
+	c.JSON(http.StatusOK, response)
 
 }
