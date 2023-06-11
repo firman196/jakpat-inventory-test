@@ -23,7 +23,7 @@ func NewInventoryHandlerImpl(inventoryUsecase usecase.InventoryUsecase) Inventor
 // CreateInventory	godoc
 // @Summary			Create a new Inventory
 // @Description		Save Inventory data in Db.
-// @Param			user body models.Inventorynput true "Create inventory"
+// @Param			user body models.InventoryInput true "Create inventory"
 // @Produce			application/json
 // @Tags			inventory
 // @Success			200 {object} utils.Response
@@ -53,7 +53,7 @@ func (h *InventoryHandlerImpl) Create(c *gin.Context) {
 // UpdateInventory	godoc
 // @Summary			Update Inventory
 // @Description		Update data inventory in Db.
-// @Param			user body models.Inventorynput true "Update inventory"
+// @Param			user body models.InventoryInput true "Update inventory"
 // @Produce			application/json
 // @Tags			inventory
 // @Success			200 {object} utils.Response
@@ -89,7 +89,7 @@ func (h *InventoryHandlerImpl) Update(c *gin.Context) {
 
 // FindByIdInventory 	godoc
 // @Summary				Get Single inventory by id.
-// @Param				id inventory string
+// @Param				id path integer true "find inventory by id"
 // @Description			Return data inventory where similar with id.
 // @Produce				application/json
 // @Tags				inventory
@@ -116,7 +116,7 @@ func (h *InventoryHandlerImpl) GetById(c *gin.Context) {
 
 // FindBySkuInventory 	godoc
 // @Summary				Get Single inventory by sku.
-// @Param				sku inventory string
+// @Param				sku path string true "fing inventory by sku"
 // @Description			Return data inventory where similar with sku.
 // @Produce				application/json
 // @Tags				inventory
