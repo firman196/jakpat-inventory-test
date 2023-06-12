@@ -107,3 +107,11 @@ func (u *UserUsecaseImpl) RefreshToken(refreshToken string) (*models.Token, erro
 
 	return &token, nil
 }
+
+func (u *UserUsecaseImpl) GetById(id int) (*models.User, error) {
+	user, err := u.repository.FindByID(id)
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
+}

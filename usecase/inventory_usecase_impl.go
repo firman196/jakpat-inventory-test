@@ -24,7 +24,7 @@ func NewInventoryUsecaseImpl(repository repository.InventoryRepository) Inventor
 	}
 }
 
-func (u *InventoryUsecaseImpl) Create(user models.User, input models.InventoryInput) (*models.Inventory, error) {
+func (u *InventoryUsecaseImpl) Create(user *models.User, input models.InventoryInput) (*models.Inventory, error) {
 	if roleSeller != user.Role {
 		return nil, errors.New("forbidden to access")
 	}
@@ -45,7 +45,7 @@ func (u *InventoryUsecaseImpl) Create(user models.User, input models.InventoryIn
 	return response, nil
 }
 
-func (u *InventoryUsecaseImpl) Update(user models.User, id int, input models.InventoryInput) (*models.Inventory, error) {
+func (u *InventoryUsecaseImpl) Update(user *models.User, id int, input models.InventoryInput) (*models.Inventory, error) {
 	if roleSeller != user.Role {
 		return nil, errors.New("FORBIDDEN TO ACCESS")
 	}
@@ -73,7 +73,7 @@ func (u *InventoryUsecaseImpl) Update(user models.User, id int, input models.Inv
 	return response, nil
 }
 
-func (u *InventoryUsecaseImpl) GetById(user models.User, id int) (*models.Inventory, error) {
+func (u *InventoryUsecaseImpl) GetById(user *models.User, id int) (*models.Inventory, error) {
 	if roleSeller != user.Role {
 		return nil, errors.New("FORBIDDEN TO ACCESS")
 	}
@@ -84,7 +84,7 @@ func (u *InventoryUsecaseImpl) GetById(user models.User, id int) (*models.Invent
 	return inventory, nil
 }
 
-func (u *InventoryUsecaseImpl) GetBySku(user models.User, sku string) (*models.Inventory, error) {
+func (u *InventoryUsecaseImpl) GetBySku(user *models.User, sku string) (*models.Inventory, error) {
 	if roleSeller != user.Role {
 		return nil, errors.New("FORBIDDEN TO ACCESS")
 	}
@@ -95,7 +95,7 @@ func (u *InventoryUsecaseImpl) GetBySku(user models.User, sku string) (*models.I
 	return inventory, nil
 }
 
-func (u *InventoryUsecaseImpl) GetBySeller(user models.User) ([]models.Inventory, error) {
+func (u *InventoryUsecaseImpl) GetBySeller(user *models.User) ([]models.Inventory, error) {
 	if roleSeller != user.Role {
 		return nil, errors.New("FORBIDDEN TO ACCESS")
 	}
@@ -107,7 +107,7 @@ func (u *InventoryUsecaseImpl) GetBySeller(user models.User) ([]models.Inventory
 	return inventories, nil
 }
 
-func (u *InventoryUsecaseImpl) Delete(user models.User, id int) (bool, error) {
+func (u *InventoryUsecaseImpl) Delete(user *models.User, id int) (bool, error) {
 	if roleSeller != user.Role {
 		return false, errors.New("FORBIDDEN TO ACCESS")
 	}
