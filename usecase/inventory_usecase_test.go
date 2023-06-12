@@ -35,7 +35,7 @@ var user = models.User{
 }
 
 // Scenario successfully
-// testing Create category service using testify and mock
+// testing Create inventory usecase using testify and mock
 func TestCreateSuccess(t *testing.T) {
 	var inventoryRepository = &mocks.InventoryRepositoryMock{Mock: mock.Mock{}}
 	var inventoryUsecase = InventoryUsecaseImpl{repository: inventoryRepository}
