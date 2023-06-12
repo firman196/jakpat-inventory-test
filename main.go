@@ -3,6 +3,7 @@ package main
 import (
 	database "Jakpat_Test_2/database/mysql"
 	"Jakpat_Test_2/handler"
+	"Jakpat_Test_2/middleware"
 	"Jakpat_Test_2/models"
 	"Jakpat_Test_2/repository"
 	"Jakpat_Test_2/usecase"
@@ -66,6 +67,7 @@ func main() {
 	// route swagger
 	router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
+	authMiddleware := middleware.JWTAuthMiddleware(userUsecase)
 	api := router.Group("/api/v1")
 
 	//route user group
@@ -74,7 +76,7 @@ func main() {
 	categoryRouter.POST("/login", userHandler.Login)
 
 	//route inventory group
-	inventoryRouter := api.Group("/inventory")
+	inventoryRouter := api.Group("/inventory", authMiddleware)
 	inventoryRouter.POST("", inventoryHandler.Create)
 	inventoryRouter.PUT("/:id", inventoryHandler.Update)
 	inventoryRouter.GET("/:id", inventoryHandler.GetById)
@@ -83,7 +85,7 @@ func main() {
 	inventoryRouter.DELETE("/delete/:id", inventoryHandler.DeleteById)
 
 	//route order group
-	orderRouter := api.Group("/order")
+	orderRouter := api.Group("/order", authMiddleware)
 	orderRouter.POST("", orderHandler.Create)
 	orderRouter.PUT("/:id", orderHandler.Update)
 	orderRouter.GET("/:id", orderHandler.GetById)

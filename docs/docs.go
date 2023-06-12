@@ -218,6 +218,14 @@ const docTemplate = `{
                 "summary": "Create a new Order",
                 "parameters": [
                     {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
                         "description": "Create order",
                         "name": "order",
                         "in": "body",

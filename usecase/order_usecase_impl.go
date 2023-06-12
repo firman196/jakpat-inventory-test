@@ -20,7 +20,7 @@ func NewOrderUsecaseImpl(orderRepository repository.OrderRepository, inventoryRe
 	}
 }
 
-func (u *OrderUsecaseImpl) Create(user models.User, input models.OrderInput) (*models.SalesOrder, error) {
+func (u *OrderUsecaseImpl) Create(user *models.User, input models.OrderInput) (*models.SalesOrder, error) {
 	if user.Role != roleCustomer {
 		return nil, errors.New("forbidden to access")
 	}
@@ -36,7 +36,7 @@ func (u *OrderUsecaseImpl) Create(user models.User, input models.OrderInput) (*m
 		InventoryId:     inventory.Id,
 		ShippingAddress: input.ShippingAddress,
 		NoTelphone:      input.NoTelphone,
-		Status:          "waiting",
+		Status:          input.Status,
 	}
 
 	response, err := u.orderRepository.Create(order)
@@ -47,7 +47,7 @@ func (u *OrderUsecaseImpl) Create(user models.User, input models.OrderInput) (*m
 	return response, nil
 }
 
-func (u *OrderUsecaseImpl) Update(user models.User, id string, input models.OrderInput) (*models.SalesOrder, error) {
+func (u *OrderUsecaseImpl) Update(user *models.User, id string, input models.OrderInput) (*models.SalesOrder, error) {
 	if user.Role != roleCustomer {
 		return nil, errors.New("forbidden to access")
 	}
@@ -73,7 +73,7 @@ func (u *OrderUsecaseImpl) Update(user models.User, id string, input models.Orde
 	return response, nil
 }
 
-func (u *OrderUsecaseImpl) GetById(user models.User, id string) (*models.SalesOrder, error) {
+func (u *OrderUsecaseImpl) GetById(user *models.User, id string) (*models.SalesOrder, error) {
 	if roleSeller != user.Role {
 		return nil, errors.New("forbidden to access")
 	}
@@ -84,7 +84,7 @@ func (u *OrderUsecaseImpl) GetById(user models.User, id string) (*models.SalesOr
 	return order, nil
 }
 
-func (u *OrderUsecaseImpl) GetBySeller(user models.User) ([]models.SalesOrder, error) {
+func (u *OrderUsecaseImpl) GetBySeller(user *models.User) ([]models.SalesOrder, error) {
 	if roleSeller != user.Role {
 		return nil, errors.New("forbidden to access")
 	}
@@ -96,7 +96,7 @@ func (u *OrderUsecaseImpl) GetBySeller(user models.User) ([]models.SalesOrder, e
 	return orders, nil
 }
 
-func (u *OrderUsecaseImpl) Delete(user models.User, id string) (bool, error) {
+func (u *OrderUsecaseImpl) Delete(user *models.User, id string) (bool, error) {
 	if roleSeller != user.Role {
 		return false, errors.New("forbidden to access")
 	}
