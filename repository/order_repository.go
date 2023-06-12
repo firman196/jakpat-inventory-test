@@ -7,5 +7,6 @@ type OrderRepository interface {
 	Update(order models.SalesOrder) (*models.SalesOrder, error)
 	FindByID(id string) (*models.SalesOrder, error)
 	FindBySellerId(sellerId int) ([]models.SalesOrder, error)
+	FindByStatus(status string) ([]models.SalesOrder, error)
 	DeleteById(id string) (bool, error)
 }

@@ -4,6 +4,7 @@ import (
 	"Jakpat_Test_2/models"
 	"Jakpat_Test_2/repository"
 	"errors"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -37,6 +38,7 @@ func (u *OrderUsecaseImpl) Create(user *models.User, input models.OrderInput) (*
 		ShippingAddress: input.ShippingAddress,
 		NoTelphone:      input.NoTelphone,
 		Status:          input.Status,
+		ExpiredAt:       time.Now().Add(time.Duration(24) * time.Hour),
 	}
 
 	response, err := u.orderRepository.Create(order)
@@ -107,4 +109,27 @@ func (u *OrderUsecaseImpl) Delete(user *models.User, id string) (bool, error) {
 	}
 
 	return true, nil
+}
+
+func (u *OrderUsecaseImpl) SetExpiredOrder() {
+	orders, err := u.orderRepository.FindByStatus("waiting")
+	if err != nil {
+		return
+	}
+
+	for _, value := range orders {
+		order := models.SalesOrder{
+			OrderId:         value.OrderId,
+			CustomerId:      value.CustomerId,
+			InventoryId:     value.InventoryId,
+			ShippingAddress: value.ShippingAddress,
+			NoTelphone:      value.NoTelphone,
+			Status:          "expired",
+		}
+
+		_, err := u.orderRepository.Update(order)
+		if err != nil {
+			return
+		}
+	}
 }

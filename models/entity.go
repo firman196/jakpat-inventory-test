@@ -44,4 +44,5 @@ type SalesOrder struct {
 	Status          string    `gorm:"column:status;type:enum('waiting', 'on_process', 'shipping', 'delivered','expired')" json:"status"`
 	CreatedAt       time.Time `json:"created_at"`
 	UpdatedAt       time.Time `json:"updated_at"`
+	ExpiredAt       time.Time `json:"expired_at"`
 }
