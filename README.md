@@ -7,6 +7,7 @@ This project build using google language (golang) for secod backend engineer tes
 - Create Order (customer)
 - Register User (customer & seller)
 - Login User (customer & seller)
+- Auto Migration database
 - Automatically set status expired order using cron scheduler
 
 # Requirement #
@@ -16,6 +17,7 @@ This project build using google language (golang) for secod backend engineer tes
 - [swagger v0.22.4](https://github.com/swaggo/gin-swagger).
 - [testify v1.8.4](https://github.com/stretchr/testify).
 - [robfig/cron v3.0.0](https://github.com/robfig/cron).
+- [gorm v1.25.1](https://gorm.io/)
 
 # Installation #
 - git clone https://github.com/firman196/jakpat-inventory-test.git
