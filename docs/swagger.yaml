@@ -202,6 +202,12 @@ paths:
     post:
       description: Create new order by customer.
       parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: Create order
         in: body
         name: order
