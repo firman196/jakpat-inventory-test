@@ -2,6 +2,7 @@ package repository
 
 import (
 	"Jakpat_Test_2/models"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -61,4 +62,15 @@ func (r *OrderRepositoryImpl) DeleteById(id string) (bool, error) {
 	}
 
 	return true, nil
+}
+
+func (r *OrderRepositoryImpl) FindByStatus(status string) ([]models.SalesOrder, error) {
+	var order []models.SalesOrder
+
+	err := r.db.Where("status =?", status).Where("expired_at <= ?", time.Now()).Find(&order).Error
+	if err != nil {
+		return order, err
+	}
+
+	return order, nil
 }

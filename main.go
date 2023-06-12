@@ -8,6 +8,7 @@ import (
 	"Jakpat_Test_2/repository"
 	"Jakpat_Test_2/usecase"
 	"os"
+	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -17,6 +18,8 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 
 	_ "Jakpat_Test_2/docs"
+
+	cron "github.com/robfig/cron/v3"
 )
 
 func main() {
@@ -94,4 +97,12 @@ func main() {
 
 	router.Run(":" + appPort)
 
+	//cron scheduler
+	//cron scheduler
+	jakartaTime, _ := time.LoadLocation("Asia/Jakarta")
+	scheduler := cron.New(cron.WithLocation(jakartaTime))
+	defer scheduler.Stop()
+
+	scheduler.AddFunc("*/5 * * * *", func() { orderUsecase.SetExpiredOrder() })
+	go scheduler.Start()
 }
