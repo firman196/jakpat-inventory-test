@@ -22,6 +22,7 @@ type InventoryInput struct {
 
 type OrderInput struct {
 	Sku             string `json:"sku" binding:"required"`
+	QtyOrder        int    `json:"qty_order" binding:"required"`
 	ShippingAddress string `json:"shipping_address" binding:"required"`
 	NoTelphone      string `json:"no_telphone" binding:"required"`
 	Status          string `json:"status" binding:"required"`

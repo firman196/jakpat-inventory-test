@@ -26,6 +26,8 @@ definitions:
     properties:
       no_telphone:
         type: string
+      qty_order:
+        type: integer
       shipping_address:
         type: string
       sku:
@@ -34,6 +36,7 @@ definitions:
         type: string
     required:
     - no_telphone
+    - qty_order
     - shipping_address
     - sku
     - status
@@ -76,6 +79,13 @@ paths:
   /api/v1/inventory:
     get:
       description: Return data inventory by seller.
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -89,6 +99,12 @@ paths:
     post:
       description: Save Inventory data in Db.
       parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: Create inventory
         in: body
         name: user
@@ -109,6 +125,12 @@ paths:
     get:
       description: Return data inventory where similar with id.
       parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: find inventory by id
         in: path
         name: id
@@ -127,6 +149,12 @@ paths:
     put:
       description: Update data inventory in Db.
       parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: Update inventory
         in: body
         name: user
@@ -152,6 +180,12 @@ paths:
     delete:
       description: Return data boolean.
       parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: delete inventory by id
         in: path
         name: id
@@ -171,6 +205,12 @@ paths:
     get:
       description: Return data inventory where similar with sku.
       parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: fing inventory by sku
         in: path
         name: sku
@@ -189,6 +229,13 @@ paths:
   /api/v1/order:
     get:
       description: Return data order by seller.
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -228,6 +275,12 @@ paths:
     get:
       description: Return data order where similar with id.
       parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: find order by id
         in: path
         name: id
@@ -246,6 +299,12 @@ paths:
     put:
       description: Update status order.
       parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: Update status order
         in: body
         name: user
@@ -271,6 +330,12 @@ paths:
     delete:
       description: Return data boolean.
       parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: delete order by id
         in: path
         name: id

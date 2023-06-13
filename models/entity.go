@@ -39,6 +39,7 @@ type SalesOrder struct {
 	OrderId         string    `gorm:"primaryKey;size:100; not null" json:"order_id"`
 	CustomerId      uint      `gorm:"not null; autoIncrement:false" json:"customer_id"`
 	InventoryId     uint      `gorm:"not null; autoincrement:false" json:"inventory_id"`
+	QtyOrder        int       `gorm:"default:0" json:"qty_order"`
 	ShippingAddress string    `gorm:"not null; autoincrement:false" json:"shipping_address"`
 	NoTelphone      string    `gorm:"not null; autoincrement:false" json:"no_telphone"`
 	Status          string    `gorm:"column:status;type:enum('waiting', 'on_process', 'shipping', 'delivered','expired')" json:"status"`

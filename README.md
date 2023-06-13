@@ -24,6 +24,7 @@ This project build using google language (golang) for secod backend engineer tes
 - rename .env.example to .env
 - set configuration database
 - go run main.go
+- for access api doc swagger you can follow this url http://127.0.0.1:7777/docs/index.html
 
 # Next Develop #
 Due to the limited time when working on this project, it is possible that there are still many features that need to be improved. So i will improved the feature on the next development
