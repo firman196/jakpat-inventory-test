@@ -31,9 +31,14 @@ func (u *OrderUsecaseImpl) Create(user *models.User, input models.OrderInput) (*
 		return nil, errors.New("sku not found")
 	}
 
+	if input.QtyOrder > inventory.QtySaleable {
+		return nil, errors.New("stock not fulfill")
+	}
+
 	order := models.SalesOrder{
 		OrderId:         uuid.New().String(),
 		CustomerId:      user.UserID,
+		QtyOrder:        input.QtyOrder,
 		InventoryId:     inventory.Id,
 		ShippingAddress: input.ShippingAddress,
 		NoTelphone:      input.NoTelphone,
@@ -43,6 +48,22 @@ func (u *OrderUsecaseImpl) Create(user *models.User, input models.OrderInput) (*
 
 	response, err := u.orderRepository.Create(order)
 	if err != nil {
+		return nil, err
+	}
+
+	//update stock inventory
+	newInventory := models.Inventory{
+		Id:          inventory.Id,
+		Sku:         inventory.Sku,
+		ProductName: inventory.ProductName,
+		QtyTotal:    inventory.QtyTotal,
+		QtyReserved: inventory.QtyReserved + input.QtyOrder,
+		QtySaleable: inventory.QtySaleable - input.QtyOrder,
+		SellerId:    inventory.SellerId,
+	}
+
+	_, errInv := u.inventoryRepository.Update(newInventory)
+	if errInv != nil {
 		return nil, err
 	}
 

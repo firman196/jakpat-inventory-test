@@ -26,6 +26,16 @@ const docTemplate = `{
                     "inventory"
                 ],
                 "summary": "Get all inventory by seller.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -45,6 +55,14 @@ const docTemplate = `{
                 ],
                 "summary": "Create a new Inventory",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "description": "Create inventory",
                         "name": "user",
@@ -77,6 +95,14 @@ const docTemplate = `{
                 "summary": "Delete inventory by id.",
                 "parameters": [
                     {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
                         "type": "integer",
                         "description": "delete inventory by id",
                         "name": "id",
@@ -107,6 +133,14 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
                         "description": "fing inventory by sku",
                         "name": "sku",
                         "in": "path",
@@ -135,6 +169,14 @@ const docTemplate = `{
                 "summary": "Get Single inventory by id.",
                 "parameters": [
                     {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
                         "type": "integer",
                         "description": "find inventory by id",
                         "name": "id",
@@ -161,6 +203,14 @@ const docTemplate = `{
                 ],
                 "summary": "Update Inventory",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "description": "Update inventory",
                         "name": "user",
@@ -198,6 +248,16 @@ const docTemplate = `{
                     "order"
                 ],
                 "summary": "Get all order by seller.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -258,6 +318,14 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
                         "description": "delete order by id",
                         "name": "id",
                         "in": "path",
@@ -287,6 +355,14 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
                         "description": "find order by id",
                         "name": "id",
                         "in": "path",
@@ -312,6 +388,14 @@ const docTemplate = `{
                 ],
                 "summary": "Update Order",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "description": "Update status order",
                         "name": "user",
@@ -442,6 +526,7 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "no_telphone",
+                "qty_order",
                 "shipping_address",
                 "sku",
                 "status"
@@ -449,6 +534,9 @@ const docTemplate = `{
             "properties": {
                 "no_telphone": {
                     "type": "string"
+                },
+                "qty_order": {
+                    "type": "integer"
                 },
                 "shipping_address": {
                     "type": "string"
